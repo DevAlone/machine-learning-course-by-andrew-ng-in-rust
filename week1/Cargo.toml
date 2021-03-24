@@ -1,0 +1,9 @@
+[package]
+name = "linear-regression-demo"
+version = "0.1.0"
+authors = ["zahar.pro"]
+edition = "2018"
+
+[dependencies]
+druid = "0.7.0"
+plotters = "0.3.0"
