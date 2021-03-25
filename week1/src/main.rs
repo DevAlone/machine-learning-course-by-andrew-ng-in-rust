@@ -3,15 +3,9 @@ mod constants;
 mod demo_data;
 mod gradient_descent;
 
-use druid::widget::{BackgroundBrush, Button, Flex, Label, Painter};
-use druid::{
-    AppLauncher, Color, Data, LocalizedString, PlatformError, RenderContext, Widget, WidgetExt,
-    WindowDesc, WindowState,
-};
-use std::borrow::BorrowMut;
+use druid::{AppLauncher, LocalizedString, WindowDesc};
 use std::sync::{Arc, Mutex};
 use std::thread;
-use std::time::Duration;
 use visualizer::Visualizer;
 use crate::demo_data::DemoData;
 use crate::gradient_descent::learning_thread;

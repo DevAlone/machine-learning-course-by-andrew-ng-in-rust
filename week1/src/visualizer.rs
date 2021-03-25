@@ -1,10 +1,6 @@
-use druid::kurbo::BezPath;
-use druid::piet::{ImageFormat, InterpolationMode, Text, TextLayoutBuilder};
+use druid::piet::{ImageFormat, InterpolationMode};
 use druid::widget::prelude::*;
-use druid::{
-    Affine, AppLauncher, Color as DruidColor, LocalizedString, Point, Rect, TimerToken, WindowDesc,
-};
-use std::path::Path;
+use druid::{Point, Rect, TimerToken};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use plotters::prelude::*;
@@ -46,18 +42,15 @@ impl Widget<()> for Visualizer {
                     size.width - UI_LEGEND_SIZE as f64 - UI_PLOT_TOP_RIGHT_MARGIN as f64,
                     size.height - UI_LEGEND_SIZE as f64 - UI_PLOT_TOP_RIGHT_MARGIN as f64,
                 );
-                let mut pos = Point::new(
+                let pos = Point::new(
                     (event.pos.x - UI_LEGEND_SIZE as f64).clamp(0.0, plot_size.width),
                     (event.pos.y - UI_LEGEND_SIZE as f64).clamp(0.0, plot_size.height),
                 );
 
-                let mut point = (
-                    pos.x / plot_size.width * MAX_VALUE,
-                    (plot_size.height - pos.y) / plot_size.height * MAX_VALUE,
+                let point = (
+                    (pos.x / plot_size.width * MAX_VALUE).clamp(0.0, MAX_VALUE),
+                    ((plot_size.height - pos.y) / plot_size.height * MAX_VALUE).clamp(0.0, MAX_VALUE),
                 );
-
-                point.0 = point.0.clamp(0.0, MAX_VALUE);
-                point.1 = point.1.clamp(0.0, MAX_VALUE);
 
                 self.data.lock().unwrap().add_point(point);
             }
@@ -143,7 +136,7 @@ impl Visualizer {
         if theta1 != 0.0 {
             // plotting library doesn't support values outside of drawing region
             // so we need to do these tricks
-            let clip_point = |point: (f64, f64)| -> (f64, f64){
+            let clamp_point = |point: (f64, f64)| -> (f64, f64){
                 if point.1 < 0.0 {
                     return (-theta0 / theta1, 0.0);
                 } else if point.1 > MAX_VALUE {
@@ -153,8 +146,8 @@ impl Visualizer {
                 point
             };
 
-            let mut point1 = clip_point((0.0, theta0));
-            let mut point2 = clip_point((MAX_VALUE, theta0 + theta1 * MAX_VALUE));
+            let point1 = clamp_point((0.0, theta0));
+            let point2 = clamp_point((MAX_VALUE, theta0 + theta1 * MAX_VALUE));
 
             plot_ctx.draw_series(
                 LineSeries::new(
