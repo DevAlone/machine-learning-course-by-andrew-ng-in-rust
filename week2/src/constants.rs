@@ -1,6 +1,8 @@
 pub const MAX_VALUE: f64 = 10.0;
 pub const DEFAULT_NUMBER_OF_POINTS: usize = 100;
 
+// by default we use gradient descent
+pub const USE_NORMAL_EQUATION: bool = false;
 pub const LEARNING_RATE: f64 = 0.01;
 pub const GRADIENT_UPDATE_PERIOD: usize = 10;
 pub const GRADIENT_STEPS_PER_UPDATE: usize = 10;

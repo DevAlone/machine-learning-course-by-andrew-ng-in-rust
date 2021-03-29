@@ -6,5 +6,6 @@ edition = "2018"
 
 [dependencies]
 druid = "0.7.0"
+nalgebra = "0.25.3"
 plotters = "0.3.0"
 rand = "0.8.3"
