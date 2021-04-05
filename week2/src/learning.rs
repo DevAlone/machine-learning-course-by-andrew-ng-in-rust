@@ -13,7 +13,16 @@ pub fn learning_thread(data: Arc<Mutex<DemoData>>) {
         } else {
             for _ in 0..GRADIENT_STEPS_PER_UPDATE {
                 let mut data = data.lock().unwrap();
-                data.theta = gradient_descent_step(&data.theta, LEARNING_RATE, &data.xs, &data.ys);
+                data.theta = helpers::math::gradient_descent_step(
+                    data.theta, LEARNING_RATE, &data.xs, &data.ys, |x: [f64; 2]| {
+                        let mut result = 0.0;
+
+                        for (theta_i, theta_val) in data.theta.iter().enumerate() {
+                            result += theta_val * if theta_i > 0 { x[theta_i - 1] } else { 1.0 };
+                        }
+
+                        result
+                    });
             }
         }
 
@@ -21,59 +30,13 @@ pub fn learning_thread(data: Arc<Mutex<DemoData>>) {
     }
 }
 
-// gradient_descent_step makes one step of gradient descent with provided parameters
-fn gradient_descent_step(
-    theta: &[f64],
-    learning_rate: f64,
-    xs: &[Vec<f64>],
-    ys: &[f64],
-) -> Vec<f64> {
-    assert!(theta.len() > 0);
-    assert!(xs.len() > 0);
-    assert!(ys.len() > 0);
-    assert!(xs[0].len() > 0);
-    assert_eq!(xs.len(), ys.len());
-
-    assert_eq!(theta.len(), xs[0].len() + 1);
-
-    let f = |x: &[f64]| {
-        let mut result = 0.0;
-
-        for (theta_i, theta_val) in theta.iter().enumerate() {
-            result += theta_val * if theta_i > 0 { x[theta_i - 1] } else { 1.0 };
-        }
-
-        result
-    };
-
-    let mut diff = vec![0.0; theta.len()];
-
-    for theta_i in 0..theta.len() {
-        for (point_i, x) in xs.iter().enumerate() {
-            let y = ys[point_i];
-
-            diff[theta_i] += (f(x) - y) * if theta_i > 0 { x[theta_i - 1] } else { 1.0 };
-        }
-
-        // divide by number of points
-        diff[theta_i] /= ys.len() as f64;
-        diff[theta_i] *= learning_rate;
-    }
-
-    let mut result = Vec::with_capacity(theta.len());
-
-    for (theta_i, theta_val) in theta.iter().enumerate() {
-        result.push(theta_val - diff[theta_i]);
-    }
-
-    result
-}
-
 type MatrixFDynamic = Matrix<f64, Dynamic, Dynamic, VecStorage<f64, Dynamic, Dynamic>>;
 
 // normal_equation_solve finds theta using normal equation
 // the formula is `(x_transpose * x)_inverse * x_transpose * y`
-fn normal_equation_solve(xs: &[Vec<f64>], ys: &[f64]) -> Vec<f64> {
+fn normal_equation_solve<const N_FEATURES: usize>(
+    xs: &[[f64; N_FEATURES]], ys: &[f64],
+) -> [f64; N_FEATURES + 1] {
     let n_rows = xs.len();
     let n_columns = xs[0].len();
 
@@ -91,12 +54,17 @@ fn normal_equation_solve(xs: &[Vec<f64>], ys: &[f64]) -> Vec<f64> {
             })
             .flatten(),
     )
-    .transpose();
+        .transpose();
     let y = MatrixFDynamic::from_iterator(ys.len(), 1, ys.iter().map(|x| *x));
     let x_transpose = x.transpose();
 
     let result = (x_transpose.clone() * x).pseudo_inverse(0.0).unwrap() * x_transpose * y;
     let result = result.data.as_vec();
+    let mut result_array = [Default::default(); N_FEATURES + 1];
 
-    result.clone()
+    for (i, val) in result.iter().enumerate() {
+        result_array[i] = *val;
+    }
+
+    result_array
 }

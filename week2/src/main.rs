@@ -1,3 +1,6 @@
+#![feature(const_generics, const_evaluatable_checked)]
+#![allow(incomplete_features)]
+
 mod app_data;
 mod constants;
 mod demo_data;
@@ -15,6 +18,8 @@ use rand::Rng;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use visualizer_2_features::Visualizer2Features;
+use helpers::canvas::Canvas;
+use std::time::Duration;
 
 fn main() {
     let mut xs = Vec::new();
@@ -26,14 +31,14 @@ fn main() {
         let i = i as f64 / DEFAULT_NUMBER_OF_POINTS as f64 * MAX_VALUE;
         let mut r = || rng.gen_range(-MAX_VALUE / 10.0..MAX_VALUE / 10.0);
 
-        xs.push(vec![i + r(), i + r()]);
+        xs.push([i + r(), i + r()]);
         ys.push(i + r());
     }
 
     let data = Arc::new(Mutex::new(DemoData {
         xs,
         ys,
-        theta: vec![
+        theta: [
             DEFAULT_THETA_VALUE,
             DEFAULT_THETA_VALUE,
             DEFAULT_THETA_VALUE,
@@ -66,7 +71,10 @@ fn get_ui_builder(data: Arc<Mutex<DemoData>>) -> impl Fn() -> Flex<AppData> {
     move || {
         let data_copy = data.clone();
         Flex::<AppData>::column()
-            .with_child(Visualizer2Features::new(data.clone()))
+            .with_child(Canvas::new(
+                Duration::from_millis(REFRESH_PERIOD),
+                Box::new(Visualizer2Features::new(data.clone())),
+            ))
             .with_child(
                 Flex::row()
                     .with_child(
@@ -88,11 +96,7 @@ fn get_ui_builder(data: Arc<Mutex<DemoData>>) -> impl Fn() -> Flex<AppData> {
                         move |_ctx: &mut EventCtx, app_data: &mut AppData, _env: &Env| {
                             match app_data.parse_new_point() {
                                 Ok(new_point) => {
-                                    data_copy.lock().unwrap().add_point(&vec![
-                                        new_point.0,
-                                        new_point.1,
-                                        new_point.2,
-                                    ]);
+                                    data_copy.lock().unwrap().add_point(new_point);
                                 }
                                 Err(_) => println!("invalid point"),
                             }
