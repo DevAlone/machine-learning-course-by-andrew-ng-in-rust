@@ -8,6 +8,8 @@ Just run it, click to create additional points and see how it converges.
 
 ![a screenshot of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/1.300x.png?raw=true)
 ![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/2.webm?raw=true)
+![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/2.mp4?raw=true)
+![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/2.gif?raw=true)
 
 ## Week 2
 
