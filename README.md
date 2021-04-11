@@ -7,8 +7,6 @@
 Just run it, click to create additional points and see how it converges.
 
 ![a screenshot of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/1.300x.png?raw=true)
-![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/2.webm?raw=true)
-![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/2.mp4?raw=true)
 ![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week1/2.gif?raw=true)
 
 ## Week 2
@@ -23,6 +21,7 @@ changing `USE_NORMAL_EQUATION` in `src/constants.rs` file
 
 ![a screenshot of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week2/1.300x.png?raw=true)
 ![a screenshot of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week2/2.300x.png?raw=true)
+![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week2/3.gif?raw=true)
 
 ## Week 3
 
@@ -32,6 +31,8 @@ as a sigmoid surface. You can add new points and see how the surface will get ad
 
 ![a screenshot of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week3/1.300x.png?raw=true)
 ![a screenshot of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week3/2.300x.png?raw=true)
+![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week3/3.gif?raw=true)
+![a video of the UI](https://github.com/DevAlone/machine-learning-course-by-andrew-ng-in-rust/blob/master/assets/week3/4.gif?raw=true)
 
 ## Week 4
 
