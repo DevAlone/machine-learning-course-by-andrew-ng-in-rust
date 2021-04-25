@@ -1,0 +1,17 @@
+[package]
+name = "week5"
+version = "0.1.0"
+authors = ["Zahar <dev@zahar.pro>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+approx = "0.4.0"
+matfile = "0.2.1"
+matfile-ndarray = "0.2.0"
+nalgebra = "0.26.1"
+ndarray = "0.15.1"
+num-traits = "0.2.14"
+optimization = "0.2.0"
+rand = "0.8.3"
