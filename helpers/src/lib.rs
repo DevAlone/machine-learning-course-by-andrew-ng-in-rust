@@ -1,4 +1,4 @@
-#![feature(const_generics, const_evaluatable_checked)]
+#![feature(adt_const_params, generic_const_exprs)]
 #![allow(incomplete_features)]
 
 pub mod canvas;

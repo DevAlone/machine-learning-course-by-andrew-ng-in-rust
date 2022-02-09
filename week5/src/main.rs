@@ -1,5 +1,4 @@
-#![feature(const_generics)]
-#![feature(const_evaluatable_checked)]
+#![feature(adt_const_params, generic_const_exprs)]
 
 #[macro_use]
 extern crate approx;
